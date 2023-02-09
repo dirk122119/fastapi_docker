@@ -3,5 +3,5 @@ from fastapi import APIRouter,Request
 router=APIRouter()
 @router.get("/redis", tags=["redis"])
 async def redis_index(request:Request):
-    value= await request.app.state.redis.json().get("realtime:data")
+    value= await request.app.state.redis.json().get("realtime:dashboard")
     return value

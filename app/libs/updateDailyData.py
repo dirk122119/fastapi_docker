@@ -8,7 +8,6 @@ import datetime
 import pytz
 import json
 from rdsFunction import create_connection_pool
-from loguru import logger
 
 def getAndInsert_TwSymbol_daily(region,cnx):
     connect_objt=cnx.get_connection()
