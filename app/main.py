@@ -8,6 +8,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from redis import asyncio as aioredis
 from dotenv import load_dotenv
+from fastapi.responses import RedirectResponse
 import os
 
 async def connect_redis():
@@ -35,8 +36,8 @@ templates = Jinja2Templates(directory="templates/")
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
+async def docs_redirect():
+    return RedirectResponse(url='/docs')
 
 @app.on_event("startup")
 async def create_redis():
