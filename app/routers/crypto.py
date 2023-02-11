@@ -10,6 +10,7 @@ import datetime
 import pytz
 from loguru import logger
 router=APIRouter()
+
 @router.get("/crypto", tags=["crypto"])
 def crypto_index():
     return {"crypto index"}

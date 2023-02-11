@@ -1,6 +1,6 @@
 from fastapi import FastAPI,Request
 import uvicorn
-from app.routers import crypto,upload,us_stock
+from app.routers import crypto,upload,us_stock,tw_stock
 from app.page import home
 from app.routers import redis
 from fastapi.staticfiles import StaticFiles
@@ -27,6 +27,7 @@ app.add_middleware(
 app.mount("/app/static", StaticFiles(directory="app/static"), name="static")
 app.include_router(crypto.router)
 app.include_router(us_stock.router)
+app.include_router(tw_stock.router)
 app.include_router(upload.router)
 app.include_router(redis.router)
 app.include_router(home.router)

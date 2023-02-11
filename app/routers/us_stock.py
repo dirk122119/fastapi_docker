@@ -4,6 +4,7 @@ import os
 from loguru import logger
 import pandas as pd
 import datetime
+from  app.libs.rdsFunction import create_connection_pool
 
 router=APIRouter()
 
@@ -11,27 +12,22 @@ router=APIRouter()
 def us_stock_index():
     return {"now in us_stock_index"}
 
-@router.get("/us_stock/get_dashboard_index", tags=["us_stock"])
-def get_dow_sp500_nasdaq():
-    url = 'https://api.finmindtrade.com/api/v4/data'
-    parameter = { "DJI":{
-    "dataset": "USStockPriceMinute",
-    "data_id": "^DJI",
-    "start_date": "2022-02-3",
-    "token": os.getenv('FinMindTolen'),
-    },"SP500":{
-        "dataset": "USStockPriceMinute",
-        "data_id": "^GSPC",
-        "start_date": "2022-02-3",
-        "token": os.getenv('FinMindTolen'),
-    },"QQQ":{
-        "dataset": "USStockPriceMinute",
-        "data_id": "^IXIC",
-        "start_date": "2022-02-3",
-        "token": os.getenv('FinMindTolen'),
-    }}
-    data = requests.get(url, params=parameter["QQQ"])
-    data = data.json()
-    data = pd.DataFrame(data['data'])
-    print(data.iloc[-1])
+
+@router.get("/us_stock/get_all_symbol_OCHL", tags=["us_stock"])
+def get_us_all_symbol_OCHL():
+    try:
+        cnx=create_connection_pool()
+    except:
+        print("無法建立connect pool")
+    connect_objt=cnx.get_connection()
+    cursor = connect_objt.cursor()
+    sql="SELECT MAX(UsStockTable.date) AS latest_date,UsSymbols.symbol,UsStockTable.open,UsStockTable.high,UsStockTable.low,UsStockTable.close,UsSymbols.companyName from UsStockTable INNER JOIN UsSymbols ON UsStockTable.symbol=UsSymbols.id GROUP BY symbol;"
+    cursor.execute(sql)
+    data=cursor.fetchall()
+    data_list=[]
+    for row in data:
+        data_list.append({"symbol":row[1],"company name":row[6],"latest_date":row[0],"open":row[2],"high":row[3],"close":row[5],"low":row[4]})
     
+    cursor.close()
+    connect_objt.close()
+    return {"data":data_list}
