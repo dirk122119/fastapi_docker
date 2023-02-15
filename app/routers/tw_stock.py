@@ -31,3 +31,20 @@ def get_tw_all_symbol_OCHL():
     cursor.close()
     connect_objt.close()
     return {"data":data_list}
+
+@router.get("/tw_stock/get_us_all_symbol", tags=["tw_stock"])
+def get_us_all_symbol():
+    try:
+        cnx=create_connection_pool()
+    except:
+        print("無法建立connect pool")
+
+    connect_objt=cnx.get_connection()
+    cursor = connect_objt.cursor()
+    sql="SELECT symbol,companyName from TwSymbols;"
+    cursor.execute(sql)
+    data=cursor.fetchall()
+    data_list=[]
+    for row in data:
+         data_list.append({"symbol":row[0],"company name":row[1]})
+    return {"symbol":data_list}

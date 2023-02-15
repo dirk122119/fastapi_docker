@@ -50,3 +50,13 @@ async def get_coinlist_market_now(coinlist):
     for coin in market_list.json():
         pass
     return "ok"
+
+@router.get("/crypto/top250_market_symbol",tags=["crypto"])
+async def get_coinlist_top250_market_now():
+    url=f"https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1"
+    data=requests.get(url)
+    symbol_list=[]
+    for item in data.json():
+        res = dict((k, item[k]) for k in ['symbol', 'id','name'] if k in item)
+        symbol_list.append(res)
+    return {"symbol":symbol_list}
