@@ -19,7 +19,7 @@ async def connect_redis():
 app = FastAPI()
 origins = [
 "http://127.0.0.1:3000/",
-"bet-it-frontend.vercel.app",
+"https://bet-it-frontend.vercel.app",
 ]
 app.add_middleware(
     CORSMiddleware,
