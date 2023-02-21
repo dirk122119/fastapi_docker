@@ -17,9 +17,15 @@ async def connect_redis():
     return redis
 
 app = FastAPI()
+origins = [
+"https://vercel.com/dirk122119/bet-it-frontend/HPHZq9AmWXGyXvV7ZepGVA3CZCwa#:~:text=bet%2Dit%2Dfrontend%2Ddirk122119.vercel.app",
+"https://bet-it-frontend-dirk122119.vercel.app/",
+"bet-it-frontend-git-develop-dirk122119.vercel.app",
+"bet-it-frontend-3agnyaipw-dirk122119.vercel.app",
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
