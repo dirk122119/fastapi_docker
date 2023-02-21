@@ -87,6 +87,7 @@ async def login(user: Login_User,res: Response):
 @router.get("/checkjwt",tags=["user"])
 def checkjwt(request: Request):
     token=request.cookies.get('fastJwt')
+    print(request.cookies)
     print(token)
     if(token):
         try:
