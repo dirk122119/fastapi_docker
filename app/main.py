@@ -1,6 +1,6 @@
 from fastapi import FastAPI,Request
 import uvicorn
-from app.routers import crypto,upload,us_stock,tw_stock
+from app.routers import crypto,upload,us_stock,tw_stock,betit,user
 from app.page import home
 from app.routers import redis
 from fastapi.staticfiles import StaticFiles
@@ -31,6 +31,8 @@ app.include_router(us_stock.router)
 app.include_router(tw_stock.router)
 app.include_router(upload.router)
 app.include_router(redis.router)
+app.include_router(betit.router)
+app.include_router(user.router)
 app.include_router(home.router)
 templates = Jinja2Templates(directory="templates/")
 

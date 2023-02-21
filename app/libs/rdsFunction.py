@@ -100,6 +100,21 @@ def TwSymbo_to_RDS(cnx):
     cursor.close()
     connect_objt.close()
 
+def createGameTable(cnx):
+    connect_objt=cnx.get_connection()
+    cursor = connect_objt.cursor()
+    sql="create table GameTable(id int auto_increment Primary KEY,market varchar(255) not null,symbol varchar(255) not null,date DATE not null,price float not null ,direct varchar(255) not null)"
+    cursor.execute(sql,)
+    cursor.close()
+    connect_objt.close()
+
+def createUserTable(cnx):
+    connect_objt=cnx.get_connection()
+    cursor = connect_objt.cursor()
+    sql="create table UserTable(id int auto_increment Primary KEY,name varchar(255) not null,account varchar(255) not null,password varchar(255) not null,email varchar(255) not null,UNIQUE (email))"
+    cursor.execute(sql,)
+    cursor.close()
+    connect_objt.close()
 load_dotenv()
 
 try:
