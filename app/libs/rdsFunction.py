@@ -124,12 +124,11 @@ def createParticipateTable(cnx):
     cursor.close()
     connect_objt.close()
 
-if __name__ == '__main__':
-    load_dotenv()
-    try:
-        cnx=create_connection_pool()
-    except:
-        print("無法建立connect pool")
-    createGameTable(cnx)
+
+load_dotenv()
+try:
+    cnx=create_connection_pool()
+except:
+    print("無法建立connect pool")
 
 
