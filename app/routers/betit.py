@@ -12,6 +12,7 @@ class Game(BaseModel):
     date: datetime
     target: float 
     direction:str
+    creater:str
 
 router=APIRouter()
 @router.post("/create_game/",tags=["game"])
@@ -24,11 +25,11 @@ async def create_game(game: Game):
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
     try:
-        sql="INSERT INTO GameTable (market,symbol,date,price,direct) value(%s,%s,%s,%s,%s)"
-        value=(game.market,game.symbol,game.date.date(),float(game.target),game.direction)
+        sql="INSERT INTO GameTable (market,symbol,date,price,direct) value(%s,%s,%s,%s,%s,%s)"
+        value=(game.market,game.symbol,game.date.date(),float(game.target),game.direction,game.creater)
         cursor.execute(sql,value)
         connect_objt.commit()
-        response=JSONResponse(status_code=200, content={"message": "ok"})
+        response=JSONResponse(status_code=200, content={"message": "create finish"})
     except mysql.connector.Error as e:
         response=JSONResponse(status_code=400, content={"message": e.msg})
     finally:
