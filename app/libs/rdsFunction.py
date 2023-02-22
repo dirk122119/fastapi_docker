@@ -130,5 +130,5 @@ try:
     cnx=create_connection_pool()
 except:
     print("無法建立connect pool")
-createParticipateTable(cnx)
+
 
