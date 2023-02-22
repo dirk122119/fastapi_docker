@@ -67,6 +67,7 @@ async def login(user: Login_User,res: Response):
         value=(user.email,)
         cursor.execute(sql,value)
         result=cursor.fetchone()
+        print(result)
         if(result!=None):
             if(check_password_hash(result[2],user.password)):
                 expTime=datetime.now()+timedelta(days=7)
