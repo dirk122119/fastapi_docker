@@ -16,6 +16,7 @@ async def connect_redis():
     redis = await aioredis.from_url(f"redis://{os.getenv('Redis_host')}:{os.getenv('Redis_port')}",password=os.getenv('Redis_password'))
     return redis
 
+load_dotenv
 app = FastAPI()
 origins = [
 "https://bet-it-frontend.vercel.app",
