@@ -103,7 +103,7 @@ def TwSymbo_to_RDS(cnx):
 def createGameTable(cnx):
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
-    sql="create table GameTable(id int auto_increment Primary KEY,market varchar(255) not null,symbol varchar(255) not null,date DATE not null,price float not null ,direct varchar(255) not null)"
+    sql="create table GameTable(id int auto_increment Primary KEY,market varchar(255) not null,symbol varchar(255) not null,date DATE not null,price float not null ,direct varchar(255) not null,owner varchar(255) not null)"
     cursor.execute(sql,)
     cursor.close()
     connect_objt.close()
@@ -115,10 +115,20 @@ def createUserTable(cnx):
     cursor.execute(sql,)
     cursor.close()
     connect_objt.close()
+
+def createParticipateTable(cnx):
+    connect_objt=cnx.get_connection()
+    cursor = connect_objt.cursor()
+    sql="create table ParticipateTable(id int auto_increment Primary KEY,gameId int not null,userId int not null,opinion BOOLEAN not null)"
+    cursor.execute(sql,)
+    cursor.close()
+    connect_objt.close()
+
 load_dotenv()
 
 try:
     cnx=create_connection_pool()
 except:
     print("無法建立connect pool")
+createParticipateTable(cnx)
 
