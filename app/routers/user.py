@@ -72,7 +72,7 @@ async def login(user: Login_User,res: Response):
             if(check_password_hash(result[2],user.password)):
                 expTime=datetime.now()+timedelta(days=7)
                 encoded = jwt.encode({"account":result[0],"email": result[1]}, private_key, algorithm="HS256")
-                response=JSONResponse(status_code=200, content={"data":{"id":result[3],"message":"login"}})
+                response=JSONResponse(status_code=200, content={"data":{"account":result[0],"message":"login"}})
                 response.set_cookie(key="fastJwt", value=encoded,expires=expTime)
             else:
                 response=JSONResponse(status_code=400, content={"data":{"message": "信箱或密碼錯誤"}})
