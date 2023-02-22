@@ -25,7 +25,7 @@ async def create_game(game: Game):
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
     try:
-        sql="INSERT INTO GameTable (market,symbol,date,price,direct) value(%s,%s,%s,%s,%s,%s)"
+        sql="INSERT INTO GameTable (market,symbol,date,price,direct,creater) value(%s,%s,%s,%s,%s,%s)"
         value=(game.market,game.symbol,game.date.date(),float(game.target),game.direction,game.creater)
         cursor.execute(sql,value)
         connect_objt.commit()
