@@ -85,15 +85,14 @@ async def login(user: Login_User,res: Response):
 
 @router.get("/checkjwt",tags=["user"])
 def checkjwt(request: Request):
-    token=request.cookies.get('fastJwt')
-    print(request.cookies)
-    print(token)
+    token= request.headers.get("authorization")
     if(token):
         try:
             cnx=create_connection_pool()
         except:
             return JSONResponse(status_code=400, content={"data":{"message": "無法建立連線"}})
         try:
+            token=token.split(" ")[1]
             tokenDecode=jwt.decode(token,private_key,algorithms="HS256")
             connect_objt=cnx.get_connection()
             cursor = connect_objt.cursor()
