@@ -81,12 +81,23 @@ def get_all_symbol_history_data(start_date,end_date,token,cnx):
                 print("wake up")
                 break
 
-load_dotenv()
+if __name__ == '__main__':
+    load_dotenv()
+    token=os.getenv('FinMindTolen')
+    try:
+        cnx=create_connection_pool()
+    except:
+        print("無法建立connect pool")
 
-try:
-    cnx=create_connection_pool()
-except:
-    print("無法建立connect pool")
 
-# get_all_symbol_history_data("2000-01-01","2023-01-31",os.getenv('FinMindTolen'),cnx)
+    url = "https://api.finmindtrade.com/api/v4/taiwan_stock_tick_snapshot"
+    parameter = {
+        "dataset": "TaiwanStockInfo",
+        "token": token, # 參考登入，獲取金鑰
+    }
+    resp = requests.get(url, params=parameter)
+    data = resp.json()
+    
+    print(data)
+
 
