@@ -43,13 +43,13 @@ async def regist(user: Register_User):
             value=(user.account,user.account,user.email,passwordHashed)
             cursor.execute(sql,value)
             connect_objt.commit()
+            cursor.close()
+            connect_objt.close()
             response=JSONResponse(status_code=200, content={"data":{"message": "註冊完成"}})
+            return response
     except mysql.connector.Error as e:
         response=JSONResponse(status_code=400, content={"data":{"message": e.msg}})
-    finally:
-        cursor.close()
-        connect_objt.close()
-    return response
+        return response
 
 @router.put("/login",tags=["user"])
 async def login(user: Login_User,res: Response):
@@ -67,21 +67,22 @@ async def login(user: Login_User,res: Response):
         value=(user.email,)
         cursor.execute(sql,value)
         result=cursor.fetchone()
-        print(result)
+        cursor.close()
+        connect_objt.close()
         if(result!=None):
             if(check_password_hash(result[2],user.password)):
                 encoded = jwt.encode({"account":result[0],"email": result[1]}, private_key, algorithm="HS256")
                 response=JSONResponse(status_code=200, content={"data":{"account":result[0],"message":"login","token":encoded}})
+                return response
             else:
                 response=JSONResponse(status_code=400, content={"data":{"message": "信箱或密碼錯誤"}})
+                return response
         else:
              response=JSONResponse(status_code=400, content={"data":{"message": "無此信箱"}})
+             return response
     except mysql.connector.Error as e:
         response=JSONResponse(status_code=400, content={"data":{"message": e.msg}})
-    finally:
-        cursor.close()
-        connect_objt.close()
-    return response
+        return response
 
 @router.get("/checkjwt",tags=["user"])
 def checkjwt(request: Request):
@@ -100,15 +101,17 @@ def checkjwt(request: Request):
             value=(tokenDecode["email"],)
             cursor.execute(sql,value)
             result=cursor.fetchone()
-            if(result!=None):
-                response=JSONResponse(status_code=200, content={"data":{"account":result[0],"email":result[1]}})
-            else:
-                response=JSONResponse(status_code=400, content={"data":None})
-        except mysql.connector.Error as e:
-            response=JSONResponse(status_code=400, content={"data":{"message": e.msg}})
-        finally:
             cursor.close()
             connect_objt.close()
+            if(result!=None):
+                response=JSONResponse(status_code=200, content={"data":{"account":result[0],"email":result[1]}})
+                return response
+            else:
+                response=JSONResponse(status_code=400, content={"data":None})
+                return response
+        except mysql.connector.Error as e:
+            response=JSONResponse(status_code=400, content={"data":{"message": e.msg}})
+            return response
     else:
         response=JSONResponse(status_code=400, content={"data":None})
-    return response
+        return response
