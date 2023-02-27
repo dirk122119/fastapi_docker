@@ -63,5 +63,5 @@ async def get_game():
         value=(row[5],)
         cursor.execute(sql,value)
         user=cursor.fetchone()
-        data_list.append({"market":row[0],"symbol":row[1],"date":str(row[2]),"price":row[3],"direct":row[4]},"creater":user[0])
+        data_list.append({"market":row[0],"symbol":row[1],"date":str(row[2]),"price":row[3],"direct":row[4],"creater":user[0]})
     return JSONResponse(status_code=200, content={"data":data_list})
