@@ -9,11 +9,11 @@ def create_connection_pool():
     # change db_config on EC2
     load_dotenv()
     db_config = {
-        'host' : os.getenv('sqlHost'),
-        'user' : os.getenv('sqlUser'),
-        'password' : os.getenv('sqlPassword'),
-        'database' : os.getenv('sqlDatabase'),
-        'port' : os.getenv('sqlPort')
+        'host' : os.getenv('local_sqlHost'),
+        'user' : os.getenv('local_sqlUser'),
+        'password' : os.getenv('local_sqlPassword'),
+        'database' : os.getenv('local_sqlDatabase'),
+        'port' : os.getenv('local_sqlPort')
     }
     cnxpool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "rds",pool_size=10, **db_config)
     return cnxpool
@@ -62,10 +62,10 @@ def stockPriceInOnetabel(cnx):
 def UsSymbo_to_RDS(cnx):
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
-    df = pd.read_csv("./sp500_qqq_list.csv")
+    df = pd.read_csv("./us_symbol_list.csv")
     for i in range (0,df.shape[0]):
         sql="INSERT INTO UsSymbols (symbol,companyName) VALUES(%s,%s)"
-        val=(df.iloc[i]["symbol"],df.iloc[i]["name"])
+        val=(df.iloc[i]["stock_id"],df.iloc[i]["stock_name"])
         cursor.execute(sql,val)
         connect_objt.commit()
     cursor.close()
@@ -91,10 +91,10 @@ def createTwStockTable(cnx):
 def TwSymbo_to_RDS(cnx):
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
-    df = pd.read_csv("./tw_0050_0051_list.csv")
+    df = pd.read_csv("./tw_symbol_list.csv")
     for i in range (0,df.shape[0]):
         sql="INSERT INTO TwSymbols (symbol,companyName) VALUES(%s,%s)"
-        val=(df.iloc[i]["symbol"].item(),df.iloc[i]["name"])
+        val=(df.iloc[i]["stock_id"],df.iloc[i]["stock_name"])
         cursor.execute(sql,val)
         connect_objt.commit()
     cursor.close()
@@ -131,4 +131,6 @@ try:
 except:
     print("無法建立connect pool")
 
-
+if __name__ == '__main__':
+    TwSymbo_to_RDS(cnx)
+    UsSymbo_to_RDS(cnx)
