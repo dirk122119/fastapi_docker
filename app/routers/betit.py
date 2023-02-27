@@ -54,11 +54,14 @@ async def get_game():
 
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
-    sql="select market,symbol,date,price,direct from GameTable;"
+    sql="select market,symbol,date,price,direct,createrId from GameTable;"
     cursor.execute(sql)
     data=cursor.fetchall()
     data_list=[]
     for row in data:
-         data_list.append({"market":row[0],"symbol":row[1],"date":str(row[2]),"price":row[3],"direct":row[4]})
-    # return {"data": data_list}
+        sql="select name from UserTable where id=%s;"
+        value=(row[5],)
+        cursor.execute(sql,value)
+        user=cursor.fetchone()
+        data_list.append({"market":row[0],"symbol":row[1],"date":str(row[2]),"price":row[3],"direct":row[4]},"creater":user[0])
     return JSONResponse(status_code=200, content={"data":data_list})
