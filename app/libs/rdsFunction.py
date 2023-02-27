@@ -9,11 +9,11 @@ def create_connection_pool():
     # change db_config on EC2
     load_dotenv()
     db_config = {
-        'host' : os.getenv('local_sqlHost'),
-        'user' : os.getenv('local_sqlUser'),
-        'password' : os.getenv('local_sqlPassword'),
-        'database' : os.getenv('local_sqlDatabase'),
-        'port' : os.getenv('local_sqlPort')
+        'host' : os.getenv('sqlHost'),
+        'user' : os.getenv('sqlUser'),
+        'password' : os.getenv('sqlPassword'),
+        'database' : os.getenv('sqlDatabase'),
+        'port' : os.getenv('sqlPort')
     }
     cnxpool = mysql.connector.pooling.MySQLConnectionPool(pool_name = "rds",pool_size=10, **db_config)
     return cnxpool
