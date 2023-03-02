@@ -54,7 +54,7 @@ async def get_game():
 
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
-    sql="select market,symbol,date,price,direct,createrId,isFininsh,isReach from GameTable;"
+    sql="select market,symbol,date,price,direct,createrId,isFinish,isReach from GameTable;"
     cursor.execute(sql)
     data=cursor.fetchall()
     data_list=[]

@@ -129,7 +129,7 @@ def get_profile(request: Request):
             tokenDecode=jwt.decode(token,private_key,algorithms="HS256")
             connect_objt=cnx.get_connection()
             cursor = connect_objt.cursor()
-            sql="SELECT UserTable.account,UserTable.email,UserTable.win,UserTable.lose,GameTable.market,GameTable.symbol,GameTable.date,GameTable.price,GameTable.direct,GameTable.createId,GameTable.isFinish,GameTable.isReach from UserTable INNER JOIN GameTable ON UserTable.id = GameTable.createrId where UserTable.email=%s ;"
+            sql="SELECT UserTable.account,UserTable.email,UserTable.win,UserTable.lose,GameTable.market,GameTable.symbol,GameTable.date,GameTable.price,GameTable.direct,GameTable.createrId,GameTable.isFinish,GameTable.isReach from UserTable INNER JOIN GameTable ON UserTable.id = GameTable.createrId where UserTable.email=%s ;"
             value=(tokenDecode["email"],)
             cursor.execute(sql,value)
             results=cursor.fetchall()
