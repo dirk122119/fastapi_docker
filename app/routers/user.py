@@ -137,7 +137,7 @@ def get_profile(request: Request):
             connect_objt.close()
             game_list=[]
             for result in results:
-                game_list.append(result)
+                game_list.append({"user_name":result[0],"user_email":result[1],"user_win":result[2],"user_lose":result[3],"game_market":result[4],"game_symbol":result[5],"game_date":str(result[6]),"game_price":result[7],"game_direct":result[8],"game_isFinish":bool(result[10]),"game_isReach":bool(result[11])})
             response=JSONResponse(status_code=200, content={"data":game_list})
             return response
         except mysql.connector.Error as e:
