@@ -115,3 +115,34 @@ def checkjwt(request: Request):
     else:
         response=JSONResponse(status_code=400, content={"data":None})
         return response
+
+@router.get("/profile",tags=["user"])
+def get_profile(request: Request):
+    token= request.headers.get("authorization")
+    if(token):
+        try:
+            cnx=create_connection_pool()
+        except:
+            return JSONResponse(status_code=400, content={"data":{"message": "無法建立連線"}})
+        try:
+            token=token.split(" ")[1]
+            tokenDecode=jwt.decode(token,private_key,algorithms="HS256")
+            connect_objt=cnx.get_connection()
+            cursor = connect_objt.cursor()
+            sql="SELECT UserTable.account,UserTable.email,UserTable.win,UserTable.lose,GameTable.market,GameTable.symbol,GameTable.date,GameTable.price,GameTable.direct,GameTable.createId,GameTable.isFinish,GameTable.isReach from UserTable INNER JOIN GameTable ON UserTable.id = GameTable.createrId where UserTable.email=%s ;"
+            value=(tokenDecode["email"],)
+            cursor.execute(sql,value)
+            results=cursor.fetchall()
+            cursor.close()
+            connect_objt.close()
+            game_list=[]
+            for result in results:
+                game_list.append(result)
+            response=JSONResponse(status_code=200, content={"data":game_list})
+            return response
+        except mysql.connector.Error as e:
+                response=JSONResponse(status_code=400, content={"data":{"message": e.msg}})
+                return response
+    else:
+        response=JSONResponse(status_code=400, content={"data":None})
+        return response
