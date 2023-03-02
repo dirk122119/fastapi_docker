@@ -59,7 +59,7 @@ async def get_game():
     data=cursor.fetchall()
     data_list=[]
     for row in data:
-        if(row[6]):
+        if not(row[6]):
             sql="select name from UserTable where id=%s;"
             value=(row[5],)
             cursor.execute(sql,value)
