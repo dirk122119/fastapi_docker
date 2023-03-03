@@ -32,8 +32,8 @@ def get_tw_all_symbol_OCHL():
     connect_objt.close()
     return {"data":data_list}
 
-@router.get("/tw_stock/get_us_all_symbol", tags=["tw_stock"])
-def get_us_all_symbol():
+@router.get("/tw_stock/get_tw_all_symbol", tags=["tw_stock"])
+def get_tw_all_symbol():
     try:
         cnx=create_connection_pool()
     except:
