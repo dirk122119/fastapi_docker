@@ -59,7 +59,7 @@ def get_symbol_OHCL(symbol:str):
 
     connect_objt=cnx.get_connection()
     cursor = connect_objt.cursor()
-    sql="SELECT UsSymbols.id,UsSymbols.symbol,UsStockTable.date,UsStockTable.open,UsStockTable.high,UsStockTable.low,UsStockTable.close,UsStockTable.volume from UsStockTable INNER JOIN UsSymbols ON UsStockTable.symbol=UsSymbols.id WHERE UsSymbols.symbol = %s AND UsStockTable.date >=  CURDATE() - INTERVAL 30 DAY;"
+    sql="SELECT UsSymbols.companyName,UsSymbols.symbol,UsStockTable.date,UsStockTable.open,UsStockTable.high,UsStockTable.low,UsStockTable.close,UsStockTable.volume from UsStockTable INNER JOIN UsSymbols ON UsStockTable.symbol=UsSymbols.id WHERE UsSymbols.symbol = %s AND UsStockTable.date >=  CURDATE() - INTERVAL 30 DAY;"
     val=(symbol,)
     cursor.execute(sql,val)
     data=cursor.fetchall()
@@ -67,6 +67,6 @@ def get_symbol_OHCL(symbol:str):
     cursor.close()
     connect_objt.close()
     for row in data:
-        data_list.append({"symbol":row[1],"date":str(row[2]),"open":row[3],"high":row[4],"low":row[5],"close":row[6],"volume":row[7]})
+        data_list.append({"companyName":row[0],"symbol":row[1],"date":str(row[2]),"open":row[3],"high":row[4],"low":row[5],"close":row[6],"volume":row[7]})
     response=JSONResponse(status_code=200, content={"data":data_list})
     return response
