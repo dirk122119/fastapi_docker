@@ -50,7 +50,7 @@ def get_us_all_symbol():
          data_list.append({"symbol":row[0],"company name":row[1]})
     return {"symbol":data_list}
 
-@router.get("/us_stock/get_symbol_OHCL")
+@router.get("/us_stock/get_symbol_OHCL", tags=["us_stock"])
 def get_symbol_OHCL(symbol:str):
     try:
         cnx=create_connection_pool()
