@@ -66,7 +66,10 @@ def get_symbol_OHCL(symbol:str):
     data_list=[]
     cursor.close()
     connect_objt.close()
-    for row in data:
-        data_list.append({"companyName":row[0],"symbol":row[1],"date":str(row[2]),"open":row[3],"high":row[4],"low":row[5],"close":row[6],"volume":row[7]})
+    df = pd.DataFrame(data)
+    df = df.drop_duplicates(subset=[2], keep='first')
+    for i in range (0,df.shape[0]):
+        data_list.append({"companyName":df.iloc[i][0],"symbol":df.iloc[i][1],"date":str(df.iloc[i][2]),"open":df.iloc[i][3],"high":df.iloc[i][4],"low":df.iloc[i][5],"close":df.iloc[i][6],"volume":df.iloc[i][7]})
+   
     response=JSONResponse(status_code=200, content={"data":data_list})
     return response
