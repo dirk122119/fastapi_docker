@@ -73,8 +73,8 @@ def get_tw_all_symbol_history_data(start_date,end_date,token,cnx):
             except Exception as e:
                 logger.error(f"{symbol} error {index} time,{e}")
             finally:
-                print("sleep 5s")
-                time.sleep(5)
+                print("sleep 1s")
+                time.sleep(1)
                 print("wake up")
                 break
 
@@ -151,5 +151,5 @@ if __name__ == '__main__':
         cnx=create_connection_pool()
     except:
         print("無法建立connect pool")
-    get_us_all_symbol_history_data("2000-01-01","2023-02-24",os.getenv('FinMindTolen'),cnx)
+    get_tw_all_symbol_history_data("2000-01-01","2023-03-7",os.getenv('FinMindTolen'),cnx)
 
