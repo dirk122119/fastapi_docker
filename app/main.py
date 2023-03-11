@@ -34,11 +34,11 @@ app.mount("/app/static", StaticFiles(directory="app/static"), name="static")
 app.include_router(crypto.router)
 app.include_router(us_stock.router)
 app.include_router(tw_stock.router)
-app.include_router(upload.router)
+# app.include_router(upload.router)
 app.include_router(redis.router)
 app.include_router(betit.router)
 app.include_router(user.router)
-app.include_router(home.router)
+# app.include_router(home.router)
 templates = Jinja2Templates(directory="templates/")
 
 

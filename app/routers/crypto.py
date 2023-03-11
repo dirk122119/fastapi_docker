@@ -11,9 +11,9 @@ import pytz
 from loguru import logger
 router=APIRouter()
 
-@router.get("/crypto", tags=["crypto"])
-def crypto_index():
-    return {"crypto index"}
+# @router.get("/crypto", tags=["crypto"])
+# def crypto_index():
+#     return {"crypto index"}
 
 @router.get("/crypto/top7_search", tags=["crypto"])
 async def get_coingecko_top7_search():

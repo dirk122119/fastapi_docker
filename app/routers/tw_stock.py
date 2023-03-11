@@ -9,9 +9,9 @@ from fastapi.responses import JSONResponse
 
 router=APIRouter()
 
-@router.get("/tw_stock", tags=["tw_stock"])
-def Tw_stock_index():
-    return {"now in Tw_stock_index"}
+# @router.get("/tw_stock", tags=["tw_stock"])
+# def Tw_stock_index():
+#     return {"now in Tw_stock_index"}
 
 
 @router.get("/tw_stock/get_all_symbol_OCHL", tags=["tw_stock"])

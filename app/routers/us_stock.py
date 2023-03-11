@@ -9,9 +9,9 @@ from  app.libs.rdsFunction import create_connection_pool
 
 router=APIRouter()
 
-@router.get("/us_stock", tags=["us_stock"])
-def us_stock_index():
-    return {"now in us_stock_index"}
+# @router.get("/us_stock", tags=["us_stock"])
+# def us_stock_index():
+#     return {"now in us_stock_index"}
 
 
 @router.get("/us_stock/get_all_symbol_OCHL", tags=["us_stock"])
