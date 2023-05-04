@@ -39,15 +39,19 @@ def get_us_all_symbol():
         cnx=create_connection_pool()
     except:
         print("無法建立connect pool")
-
-    connect_objt=cnx.get_connection()
-    cursor = connect_objt.cursor()
-    sql="SELECT symbol,companyName from UsSymbols;"
-    cursor.execute(sql)
-    data=cursor.fetchall()
+    url = 'https://api.finmindtrade.com/api/v4/data'
+    token=os.getenv('FinMindTolen')
+    parameter = {
+        "dataset": "USStockInfo",
+        "token": token,
+    }
+    data = requests.get(url, params=parameter)
+    data = data.json()
+    data = pd.DataFrame(data['data'])
     data_list=[]
-    for row in data:
-         data_list.append({"symbol":row[0],"company name":row[1]})
+    for symbol in data.itertuples():
+        data_list.append({"symbol":symbol.stock_id,"company name":symbol.stock_name})
+
     return {"symbol":data_list}
 
 @router.get("/us_stock/get_symbol_OHCL", tags=["us_stock"])
